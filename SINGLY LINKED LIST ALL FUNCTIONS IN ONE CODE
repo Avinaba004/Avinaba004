@@ -1,0 +1,179 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+    int data;
+    struct node* next;
+};
+
+struct node* head = NULL;
+
+void create(int data)
+{
+    struct node* newnode = (struct node*)malloc(sizeof(struct node));
+    newnode->data = data;
+    newnode->next = NULL;
+
+    if (head != NULL) {
+        newnode->next = head;
+    }
+
+    head = newnode;
+}
+
+void insert(int data)
+{
+    struct node* newnode = (struct node*)malloc(sizeof(struct node));
+    struct node* current;
+
+    newnode->data = data;
+    newnode->next = NULL;
+
+    if (head == NULL)
+        head = newnode;
+    else
+    {
+        current = head;
+        while (current->next != NULL)
+        {
+            current = current->next;
+        }
+        current->next = newnode;
+    }
+}
+
+void deletelink(int data)
+{
+    struct node* current = head;
+    struct node* temp = NULL;
+
+    if (head == NULL)
+        printf("\nNO ELEMENTS PRESENT");
+    else
+    {
+        while (current->next != NULL)
+        {
+            if (current->next->data == data)
+            {
+                temp = current->next;
+                current->next = temp->next;
+                free(temp);
+                break;
+            }
+            current = current->next;
+        }
+    }
+}
+
+void display()
+{
+    struct node* current;
+    current = head;
+
+    if (current == NULL) {
+        printf("\n|NULL|\n");
+        return;
+    }
+
+    printf("\n|");
+    while (current != NULL)
+    {
+        printf(" %d |->|", current->data);
+        current = current->next;
+    }
+    printf("NULL|\n");
+}
+
+void sort()
+{
+    struct node* current = head;
+    struct node* temp;
+    int swap;
+
+    while (current != NULL)
+    {
+        temp = current->next;
+
+        while (temp != NULL)
+        {
+            if (current->data > temp->data)
+            {
+                swap = current->data;
+                current->data = temp->data;
+                temp->data = swap;
+            }
+
+            temp = temp->next;
+        }
+
+        current = current->next;
+    }
+}
+
+void reverse()
+{
+	 struct node *prev,*next,*current;
+	 current=head;
+	 prev=NULL;
+	 while(current!=NULL)
+	 {
+	 	next=current->next;
+	 	current->next=prev;
+	 	prev=current;
+	 	current=next;
+	 }
+	 head=prev;
+}
+
+int main()
+{
+    int c;
+    while (1)
+    {
+        printf("\n0)EXIT \n1)CREATE \n2)INSERT \n3)DISPLAY \n4)DELETE \n5)SORT \n6)REVERSE");
+        printf("\nEnter a choice: ");
+        scanf("%d", &c);
+        switch (c)
+        {
+        case 0:
+            exit(0);
+
+        case 1:
+            int data;
+            printf("\nEnter the data: ");
+            scanf("%d", &data);
+            create(data);
+            break;
+
+        case 2:
+            int data1;
+            printf("\nEnter the data: ");
+            scanf("%d", &data1);
+            insert(data1);
+            break;
+
+        case 3:
+            display();
+            break;
+
+        case 4:
+            int data2;
+            printf("\nEnter the data: ");
+            scanf("%d", &data2);
+            deletelink(data2);
+            break;
+            
+        case 5:
+        	sort();
+        	break;
+        	
+        case 6:
+        	reverse();
+        	break;
+
+        default:
+            printf("INVALID");
+        }
+    }
+}
